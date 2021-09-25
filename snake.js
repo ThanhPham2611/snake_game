@@ -4,10 +4,11 @@
 
 */
 
+//canvas
 const cvs = document.getElementById("snake");
 const ctx = cvs.getContext("2d");
 
-
+//total box
 const box = 32;
 
 
@@ -19,7 +20,7 @@ const foodImg = new Image();
 foodImg.src = "img/food.png";
 
 
-
+// function Sound
 let dead = new Audio();
 let eat = new Audio();
 let up = new Audio();
@@ -27,6 +28,8 @@ let right = new Audio();
 let left = new Audio();
 let down = new Audio();
 
+
+// address URL
 dead.src = "audio/dead.mp3";
 eat.src = "audio/eat.mp3";
 up.src = "audio/up.mp3";
@@ -35,16 +38,17 @@ left.src = "audio/left.mp3";
 down.src = "audio/down.mp3";
 
 
-
+// Khởi tạo snake
 let snake = [];
 
+//vị trí đầu
 snake[0] = {
     x : 9 * box,
     y : 10 * box
 };
 
 
-
+//Random đồ ăn
 let food = {
     x : Math.floor(Math.random()*17+1) * box,
     y : Math.floor(Math.random()*15+3) * box
@@ -77,24 +81,34 @@ function direction(event){
     }
 }
 
-
 function collision(head,array){
     for(let i = 0; i < array.length; i++){
         if(head.x == array[i].x && head.y == array[i].y){
+            console.log('true');
             return true;
         }
     }
+    console.log('false');
     return false;
 }
 
+function getRandomHex(){
+    return Math.floor(Math.random() *255)
+}
+
+function randomRGBA() {
+    let red = getRandomHex();
+    let green = getRandomHex();
+    let blue = getRandomHex();
+    return "rgba(" + red + "," + green + "," + blue + ")";
+}
 
 
 function draw(){
     
     ctx.drawImage(ground,0,0);
-    
     for( let i = 0; i < snake.length ; i++){
-        ctx.fillStyle = ( i == 0 )? "green" : "white";
+        ctx.fillStyle = ( i == 0 )? randomRGBA() : randomRGBA();
         ctx.fillRect(snake[i].x,snake[i].y,box,box);
         
         ctx.strokeStyle = "red";
@@ -135,7 +149,7 @@ function draw(){
     }
     
     
-    
+    // game over
     if(snakeX < box || snakeX > 17 * box || snakeY < 3*box || snakeY > 17*box || collision(newHead,snake)){
         clearInterval(game);
         dead.play();
@@ -150,7 +164,7 @@ function draw(){
 
 
 
-let game = setInterval(draw,150);
+let game = setInterval(draw,100);
 
 
 
