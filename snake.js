@@ -1,15 +1,16 @@
-/*
-Create by Learn Web Developement
-Youtube channel : https://www.youtube.com/channel/UC8n8ftV94ZU_DJLOLtrpORA
+/** 
+
+** Created by ThanhPham 25/09/2021
+
 */
 
 const cvs = document.getElementById("snake");
 const ctx = cvs.getContext("2d");
 
-// create the unit
+
 const box = 32;
 
-// load images
+
 
 const ground = new Image();
 ground.src = "img/ground.png";
@@ -17,7 +18,7 @@ ground.src = "img/ground.png";
 const foodImg = new Image();
 foodImg.src = "img/food.png";
 
-// load audio files
+
 
 let dead = new Audio();
 let eat = new Audio();
@@ -33,7 +34,7 @@ right.src = "audio/right.mp3";
 left.src = "audio/left.mp3";
 down.src = "audio/down.mp3";
 
-// create the snake
+
 
 let snake = [];
 
@@ -42,18 +43,18 @@ snake[0] = {
     y : 10 * box
 };
 
-// create the food
+
 
 let food = {
     x : Math.floor(Math.random()*17+1) * box,
     y : Math.floor(Math.random()*15+3) * box
 }
 
-// create the score var
+
 
 let score = 0;
 
-//control the snake
+
 
 let d;
 
@@ -76,7 +77,7 @@ function direction(event){
     }
 }
 
-// cheack collision function
+
 function collision(head,array){
     for(let i = 0; i < array.length; i++){
         if(head.x == array[i].x && head.y == array[i].y){
@@ -86,7 +87,7 @@ function collision(head,array){
     return false;
 }
 
-// draw everything to the canvas
+
 
 function draw(){
     
@@ -102,17 +103,17 @@ function draw(){
     
     ctx.drawImage(foodImg, food.x, food.y);
     
-    // old head position
+    
     let snakeX = snake[0].x;
     let snakeY = snake[0].y;
     
-    // which direction
+    
     if( d == "LEFT") snakeX -= box;
     if( d == "UP") snakeY -= box;
     if( d == "RIGHT") snakeX += box;
     if( d == "DOWN") snakeY += box;
     
-    // if the snake eats the food
+    
     if(snakeX == food.x && snakeY == food.y){
         score++;
         eat.play();
@@ -120,20 +121,20 @@ function draw(){
             x : Math.floor(Math.random()*17+1) * box,
             y : Math.floor(Math.random()*15+3) * box
         }
-        // we don't remove the tail
+        
     }else{
-        // remove the tail
+       
         snake.pop();
     }
     
-    // add new Head
+    
     
     let newHead = {
         x : snakeX,
         y : snakeY
     }
     
-    // game over
+    
     
     if(snakeX < box || snakeX > 17 * box || snakeY < 3*box || snakeY > 17*box || collision(newHead,snake)){
         clearInterval(game);
@@ -147,7 +148,7 @@ function draw(){
     ctx.fillText(score,2*box,1.6*box);
 }
 
-// call draw function every 100 ms
+
 
 let game = setInterval(draw,150);
 
